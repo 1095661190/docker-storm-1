@@ -1,10 +1,6 @@
 FROM ubuntu:14.04
 MAINTAINER wingerath wolfram@wingerath.org
 
-# The following files have to be provided by the operator:
-# /usr/share/storm/conf/storm.yaml
-# /usr/share/storm/logback/cluster.xml
-
 # The used storm version:
 ENV STORM_VERSION apache-storm-0.10.0
 
@@ -21,10 +17,8 @@ EXPOSE 8000
 # DRPC and remote deployment
 EXPOSE 6627 3772 3773
 
-
 # setting up config files
 RUN export JAVA_HOME=/usr/lib/jvm/java-8-oracle
-
 
 # Install stuff
 RUN \
@@ -52,5 +46,6 @@ RUN apt-get update && \
 
 # add startup script
 ADD start-supervisor.sh ${STORM_HOME}/start-supervisor.sh
+RUN chmod +x ${STORM_HOME}/start-supervisor.sh
 
 ENTRYPOINT ["/usr/share/storm/start-supervisor.sh"]
