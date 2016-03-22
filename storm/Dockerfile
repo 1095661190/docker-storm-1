@@ -6,7 +6,6 @@ ENV STORM_VERSION apache-storm-0.10.0
 
 # derived parameters
 ENV STORM_HOME /usr/share/storm
-ENV STORM_LOCAL ${STORM_HOME}/storm-local
 
 WORKDIR ${STORM_HOME}
 
@@ -45,7 +44,7 @@ RUN apt-get update && \
   apt-get clean
 
 # add startup script
-ADD start-supervisor.sh ${STORM_HOME}/start-supervisor.sh
-RUN chmod +x ${STORM_HOME}/start-supervisor.sh
+ADD entrypoint.sh /usr/share/storm/entrypoint.sh
+RUN chmod +x /usr/share/storm/entrypoint.sh
 
-ENTRYPOINT ["/usr/share/storm/start-supervisor.sh"]
+ENTRYPOINT ["/usr/share/storm/entrypoint.sh"]
