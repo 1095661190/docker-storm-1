@@ -45,7 +45,7 @@ RUN apt-get update && \
   apt-get clean
 
 # add startup script
-ADD start-supervisor.sh start-supervisor.sh
-RUN chmod +x start-supervisor.sh
+ADD start-supervisor.sh ${STORM_HOME}/start-supervisor.sh
+RUN chmod +x ${STORM_HOME}/start-supervisor.sh
 
 ENTRYPOINT ["/usr/share/storm/start-supervisor.sh"]
