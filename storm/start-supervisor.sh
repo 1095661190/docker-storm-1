@@ -5,7 +5,7 @@ wget -q -N http://mirrors.gigenet.com/apache/storm/${STORM_VERSION}/${STORM_VERS
 unzip -o ${STORM_VERSION}.zip -d /usr/share/
 rm ${STORM_VERSION}.zip
 
-ln -s /usr/share/${STORM_VERSION} /usr/share/storm
+sudo ln -s /usr/share/${STORM_VERSION} /usr/share/storm
 
 # Now copy config files
 cp -a -rv /mnt/storm/. .
