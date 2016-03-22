@@ -46,7 +46,7 @@ RUN apt-get update && \
 
 # download storm
 RUN wget -q -N http://mirrors.gigenet.com/apache/storm/${STORM_VERSION}/${STORM_VERSION}.zip
-RUN unzip -o ${STORM_VERSION}.zip -d .
+RUN unzip -o ${STORM_VERSION}.zip -d /usr/share/
 RUN rm ${STORM_VERSION}.zip
 
 RUN ln -s /usr/share/${STORM_VERSION} /usr/share/storm
@@ -54,7 +54,7 @@ RUN ln -s /usr/share/${STORM_VERSION} /usr/share/storm
 
 
 # add startup script
-ADD entrypoint.sh /usr/share/storm/entrypoint.sh
+ADD entrypoint.sh entrypoint.sh
 RUN chmod +x /usr/share/storm/entrypoint.sh
 
 ENTRYPOINT ["/usr/share/storm/entrypoint.sh"]
