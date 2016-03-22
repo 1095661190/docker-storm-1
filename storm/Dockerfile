@@ -43,6 +43,16 @@ RUN apt-get update && \
   apt-get install -y oracle-java8-installer && \
   apt-get clean
 
+
+# download storm
+RUN wget -q -N http://mirrors.gigenet.com/apache/storm/${STORM_VERSION}/${STORM_VERSION}.zip
+RUN unzip -o ${STORM_VERSION}.zip -d .
+RUN rm ${STORM_VERSION}.zip
+
+RUN ln -s /usr/share/storm /usr/share/${STORM_VERSION}
+
+
+
 # add startup script
 ADD entrypoint.sh /usr/share/storm/entrypoint.sh
 RUN chmod +x /usr/share/storm/entrypoint.sh
