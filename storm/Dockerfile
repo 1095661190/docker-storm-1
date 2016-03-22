@@ -50,7 +50,7 @@ RUN unzip -o ${STORM_VERSION}.zip -d /usr/share/
 RUN rm ${STORM_VERSION}.zip
 
 #RUN ln -s /usr/share/${STORM_VERSION} /usr/share/storm
-RUN mv /usr/share/${STORM_VERSION} /usr/share/storm
+RUN mv /usr/share/${STORM_VERSION}/* /usr/share/storm
 
 
 
