@@ -48,4 +48,4 @@ RUN apt-get update && \
 ADD start-supervisor.sh start-supervisor.sh
 RUN chmod +x start-supervisor.sh
 
-ENTRYPOINT ["start-supervisor.sh"]
+ENTRYPOINT ["/usr/share/storm/start-supervisor.sh"]
