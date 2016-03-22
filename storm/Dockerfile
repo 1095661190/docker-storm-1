@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 MAINTAINER wingerath wolfram@wingerath.org
 
 # The used storm version:
-ENV STORM_VERSION apache-storm-0.10.0
+ENV STORM_VERSION apache-storm-0.9.5
 
 # derived parameters
 ENV STORM_HOME /usr/share/storm
@@ -43,19 +43,15 @@ RUN apt-get update && \
   apt-get install -y oracle-java8-installer && \
   apt-get clean
 
-
 # download storm
 RUN wget -q -N http://mirrors.gigenet.com/apache/storm/${STORM_VERSION}/${STORM_VERSION}.zip
 RUN unzip -o ${STORM_VERSION}.zip -d /usr/share/
 RUN rm ${STORM_VERSION}.zip
 
-#RUN ln -s /usr/share/${STORM_VERSION} /usr/share/storm
 RUN mv /usr/share/${STORM_VERSION}/* /usr/share/storm
-
-
 
 # add startup script
 ADD entrypoint.sh entrypoint.sh
-RUN chmod +x /usr/share/storm/entrypoint.sh
+RUN chmod +x entrypoint.sh
 
 ENTRYPOINT ["/usr/share/storm/entrypoint.sh"]
