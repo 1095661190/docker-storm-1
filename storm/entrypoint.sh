@@ -6,6 +6,9 @@ if [ -d "/mnt" ] && [ -d "/mnt/storm" ]; then
     cp -a -rv /mnt/storm/. .
 fi
 
+# now let's build the command to start storm
+CMD="exec bin/storm \"\$@\" -c storm.local.hostname=\$(hostname -i | awk '{print \$1;}')"
+
 ############################
 # storm.zookeeper.servers #
 ############################
@@ -15,14 +18,12 @@ if ! [ -z "$ZOOKEEPER_SERVERS" ]; then
     ZOOKEEPER_SERVERS_ESCAPED=
     for index in "${!ZOOKEEPER_SERVERS_ARRAY[@]}"
     do
-        ZOOKEEPER_SERVERS_ESCAPED="$ZOOKEEPER_SERVERS_ESCAPED,\"${ZOOKEEPER_SERVERS_ARRAY[index]}\""
+        ZOOKEEPER_SERVERS_ESCAPED="$ZOOKEEPER_SERVERS_ESCAPED,\\\"${ZOOKEEPER_SERVERS_ARRAY[index]}\\\""
     done
-    ZOOKEEPER_SERVERS_ESCAPED="[${ZOOKEEPER_SERVERS_ESCAPED:1}]"
-    echo "using ZooKeeper servers: $ZOOKEEPER_SERVERS_ESCAPED"
+    ZOOKEEPER_SERVERS_ESCAPED=[${ZOOKEEPER_SERVERS_ESCAPED:1}]
+    CMD="$CMD -c storm.zookeeper.servers=$ZOOKEEPER_SERVERS_ESCAPED"
 fi
 
-
-exec bin/storm "$@" \
-    -c storm.zookeeper.servers=$ZOOKEEPER_SERVERS_ESCAPED \
-    -c storm.local.hostname=$(hostname) \
-    $(if ! [ -z "$ZOOKEEPER_SERVERS_ESCAPED" ]; then echo -c storm.zookeeper.servers=$ZOOKEEPER_SERVERS_ESCAPED; else echo ""; fi;)
+# print and execute command string
+echo $CMD
+eval $CMD
