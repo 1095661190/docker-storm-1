@@ -4,25 +4,26 @@ The Docker image launches Apache Storm. By default, the `storm.local.hostname` p
 
 ## No need for a `storm.yaml`!
 
-Storm allows you to provide any property via command line arguments like so:
+Storm allows you to provide any property via command line arguments like this:
 
 	bin/storm ui \
         -c nimbus.host=nimbus
-You are not restricted to strings, but can also provide integer lists, e.g. here:
+You are not restricted to strings, but can also provide integer lists:
 
 	bin/storm supervisor \
-        -c supervisor.slots.ports=6700,6701
-Or list of strings, e.g. here:
+        -c supervisor.slots.ports=[6700,6701]
+Or lists of strings:
 
 	bin/storm supervisor \
         -c storm.zookeeper.servers="[\"zk1\",\"zk2\",\"zk3\"]"
 
+You can look up [**all the parameters in the source code**](https://github.com/apache/storm/blob/0.9.3-branch/storm-core/src/jvm/backtype/storm/Config.java).
 
 
 ### Providing ZooKeeper the easy way
 
-This image also lets you specify the ZooKeeper servers with a simple list (e.g. `"zk1,zk2,zk3"`).  
-So if your ZooKeeper cluster is made up of `zk1`, `zk2` and `zk3`, you can tell Storm to use this cluster by providing an environment variable:
+This image also lets you specify the ZooKeeper servers with a simple list (e.g. `"zk1,zk2,zk3"`) instead of the more verbose format Storm requires (e.g. `"[\"zk1\",\"zk2\",\"zk3\"]"`). 
+So if your ZooKeeper cluster is made up of `zk1`, `zk2` and `zk3`, you can tell Storm to use this cluster by providing the following environment variable:
 
 	-e STORM_ZOOKEEPER_SERVERS="zk1,zk2,zk3"
 
@@ -30,7 +31,7 @@ Internally, this is translated to
 
 	-c storm.zookeeper.servers="[\"zk1\",\"zk2\",\"zk3\"]"
 
-So here is the Storm-native way:  
+So to be clear, here is a direct comparison between both (equivalent) variants. First, here is the Storm-native way:  
 
 	docker run \
 	    baqend/storm nimbus \
@@ -42,4 +43,4 @@ And here the simple alternative:
 	docker run \
 	    -e STORM_ZOOKEEPER_SERVERS="zk1,zk2,zk3" \
 	    baqend/storm nimbus \
-	      -c nimbus.host=nimbus 
+	      -c nimbus.host=nimbus

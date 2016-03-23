@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # now let's build the command to start storm
-CMD="exec bin/storm \"\$@\" -c storm.local.hostname=\$(hostname -i | awk '{print \$1;}')"
+CMD="exec bin/storm \"\$@\" -c storm.local.hostname="$(hostname -i | awk '{print $1;}')
 
 ############################
 # storm.zookeeper.servers #
