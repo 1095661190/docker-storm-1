@@ -18,6 +18,7 @@ if ! [ -z "$ZOOKEEPER_SERVERS" ]; then
         ZOOKEEPER_SERVERS_ESCAPED="$ZOOKEEPER_SERVERS_ESCAPED,\"${ZOOKEEPER_SERVERS_ARRAY[index]}\""
     done
     ZOOKEEPER_SERVERS_ESCAPED="-c storm.zookeeper.servers=["${ZOOKEEPER_SERVERS_ESCAPED:1}"]"
+    echo "using ZooKeeper servers: $ZOOKEEPER_SERVERS_ESCAPED"
 fi
 
 
