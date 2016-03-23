@@ -17,7 +17,7 @@ if ! [ -z "$ZOOKEEPER_SERVERS" ]; then
     do
         ZOOKEEPER_SERVERS_ESCAPED="$ZOOKEEPER_SERVERS_ESCAPED,\"${ZOOKEEPER_SERVERS_ARRAY[index]}\""
     done
-    ZOOKEEPER_SERVERS_ESCAPED="-c storm.zookeeper.servers=["${ZOOKEEPER_SERVERS_ESCAPED:1}"]"
+    ZOOKEEPER_SERVERS_ESCAPED="[${ZOOKEEPER_SERVERS_ESCAPED:1}]"
     echo "using ZooKeeper servers: $ZOOKEEPER_SERVERS_ESCAPED"
 fi
 
@@ -25,4 +25,4 @@ fi
 exec bin/storm "$@" \
     -c storm.zookeeper.servers=$ZOOKEEPER_SERVERS_ESCAPED \
     -c storm.local.hostname=$(hostname) \
-    $ZOOKEEPER_SERVERS_ESCAPED
+    $(if ! [ -z "$ZOOKEEPER_SERVERS_ESCAPED" ]; then echo -c storm.zookeeper.servers=$ZOOKEEPER_SERVERS_ESCAPED; else echo ""; fi;)
