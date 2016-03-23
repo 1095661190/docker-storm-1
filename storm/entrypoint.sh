@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Now copy config files, if there are any
-if [ -d "/mnt/storm/" ]; then
+if [ -d "/mnt" ] && [ -d "/mnt/storm" ]; then
     echo "directory /mnt/storm/ exists. Copying contents into storm folder..."
     cp -a -rv /mnt/storm/. .
 fi
