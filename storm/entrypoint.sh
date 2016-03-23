@@ -1,20 +1,14 @@
 #!/bin/bash
 
-# Now copy config files, if there are any
-if [ -d "/mnt" ] && [ -d "/mnt/storm" ]; then
-    echo "directory /mnt/storm/ exists. Copying contents into storm folder..."
-    cp -a -rv /mnt/storm/. .
-fi
-
 # now let's build the command to start storm
 CMD="exec bin/storm \"\$@\" -c storm.local.hostname=\$(hostname -i | awk '{print \$1;}')"
 
 ############################
 # storm.zookeeper.servers #
 ############################
-if ! [ -z "$ZOOKEEPER_SERVERS" ]; then
+if ! [ -z "$STORM_ZOOKEEPER_SERVERS" ]; then
     # All ZooKeeper server IPs in an array
-    IFS=', ' read -r -a ZOOKEEPER_SERVERS_ARRAY <<< "$ZOOKEEPER_SERVERS"
+    IFS=', ' read -r -a ZOOKEEPER_SERVERS_ARRAY <<< "$STORM_ZOOKEEPER_SERVERS"
     ZOOKEEPER_SERVERS_ESCAPED=
     for index in "${!ZOOKEEPER_SERVERS_ARRAY[@]}"
     do
