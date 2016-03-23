@@ -15,13 +15,13 @@ if ! [ -z "$ZOOKEEPER_SERVERS" ]; then
     ZOOKEEPER_SERVERS_ESCAPED=
     for index in "${!ZOOKEEPER_SERVERS_ARRAY[@]}"
     do
-        ZOOKEEPER_SERVERS_ESCAPED="$ZOOKEEPER_SERVERS_ESCAPED,${ZOOKEEPER_SERVERS_ARRAY[index]}"
+        ZOOKEEPER_SERVERS_ESCAPED="$ZOOKEEPER_SERVERS_ESCAPED,\"${ZOOKEEPER_SERVERS_ARRAY[index]}\""
     done
-    ZOOKEEPER_SERVERS_ESCAPED="["${ZOOKEEPER_SERVERS_ESCAPED:1}"]"
+    ZOOKEEPER_SERVERS_ESCAPED="-c storm.zookeeper.servers=["${ZOOKEEPER_SERVERS_ESCAPED:1}"]"
 fi
 
 
 exec bin/storm "$@" \
     -c storm.zookeeper.servers=$ZOOKEEPER_SERVERS_ESCAPED \
-    -c storm.zookeeper.servers=$ZOOKEEPER_SERVERS_ESCAPED \
-    -c storm.local.hostname=$(hostname)
+    -c storm.local.hostname=$(hostname) \
+    $ZOOKEEPER_SERVERS_ESCAPED
