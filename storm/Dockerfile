@@ -1,8 +1,9 @@
 FROM ubuntu:14.04
 MAINTAINER wingerath wolfram@wingerath.org
 
-# The used storm version:
-ENV STORM_VERSION apache-storm-0.9.5
+# The used storm version can also be supplied like this with the build command like this:
+# --build-arg BIN_VERSION=apache-storm-0.9.5
+ARG BIN_VERSION=apache-storm-0.9.5
 
 # derived parameters
 ENV STORM_HOME /usr/share/storm
@@ -44,11 +45,11 @@ RUN apt-get update && \
   apt-get clean
 
 # download storm
-RUN wget -q -N http://mirrors.gigenet.com/apache/storm/${STORM_VERSION}/${STORM_VERSION}.zip
-RUN unzip -o ${STORM_VERSION}.zip -d /usr/share/
-RUN rm ${STORM_VERSION}.zip
+RUN wget -q -N http://mirrors.gigenet.com/apache/storm/${BIN_VERSION}/${BIN_VERSION}.zip
+RUN unzip -o ${BIN_VERSION}.zip -d /usr/share/
+RUN rm ${BIN_VERSION}.zip
 
-RUN mv /usr/share/${STORM_VERSION}/* /usr/share/storm
+RUN mv /usr/share/${BIN_VERSION}/* /usr/share/storm
 
 # add startup script
 ADD entrypoint.sh entrypoint.sh
