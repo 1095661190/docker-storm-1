@@ -1,6 +1,10 @@
 # docker-storm
 
-We created this image to ease deployment of Apache Storm. 
+We created this image to ease deployment of Apache Storm. More related resources:
+
+- Our [tutorial on how to use Storm with Docker Swarm](https://github.com/Baqend/tutorial-swarm-storm)
+- the [baqend/storm on Docker Hub](https://hub.docker.com/r/baqend/storm/)
+- the [the baqend/storm on GitHub](https://github.com/Baqend/docker-storm) 
 
 
 The Docker image launches Apache Storm. By default, the `storm.local.hostname` property is set already, but you have to provide all other arguments that you would normally provide.
