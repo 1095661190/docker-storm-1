@@ -1,14 +1,11 @@
-FROM ubuntu:14.04
+FROM baqend/java:latest
 MAINTAINER wingerath wolfram@wingerath.org
 
 # The used storm version can also be supplied like this with the build command like this:
-# --build-arg BIN_VERSION=apache-storm-0.9.5
-ARG BIN_VERSION=apache-storm-0.9.5
+# --build-arg BIN_VERSION=apache-storm-1.0.0
+ARG BIN_VERSION=apache-storm-1.0.0
 
-# derived parameters
-ENV STORM_HOME /usr/share/storm
-
-WORKDIR ${STORM_HOME}
+WORKDIR /usr/share/storm
 
 # supervisor: worker ports
 EXPOSE 6700 6701 6702 6703
@@ -17,39 +14,16 @@ EXPOSE 8000
 # DRPC and remote deployment
 EXPOSE 6627 3772 3773
 
-# setting up config files
-RUN export JAVA_HOME=/usr/lib/jvm/java-8-oracle
-
-# Install stuff
+# Install and set everything up
 RUN \
-   apt-get update -y && apt-get install -y \
-   unzip \
-   make \
-   build-essential \
-   uuid-dev \
-   libtool \
-   python python-dev python-distribute python-pip \
-   pkg-config \
-   autoconf
-
-RUN alias python=python3
-
-# Install Java 8
-RUN apt-get update && \
-  apt-get upgrade -y && \
-  apt-get install -y  software-properties-common && \
-  add-apt-repository ppa:webupd8team/java -y && \
-  apt-get update && \
-  echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
-  apt-get install -y oracle-java8-installer && \
-  apt-get clean
-
-# download storm
-RUN wget -q -N http://mirrors.gigenet.com/apache/storm/${BIN_VERSION}/${BIN_VERSION}.zip
-RUN unzip -o ${BIN_VERSION}.zip -d /usr/share/
-RUN rm ${BIN_VERSION}.zip
-
-RUN mv /usr/share/${BIN_VERSION}/* /usr/share/storm
+   alias python=python3 \
+&& apt-get update -y \
+&& apt-get install -y \
+   python \
+&& wget -q -N http://mirrors.gigenet.com/apache/storm/${BIN_VERSION}/${BIN_VERSION}.tar.gz \
+&& tar --strip-components=1 -C /usr/share/storm -xvf ${BIN_VERSION}.tar.gz \
+&& rm ${BIN_VERSION}.tar.gz \
+&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # add startup script
 ADD entrypoint.sh entrypoint.sh

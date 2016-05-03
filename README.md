@@ -56,9 +56,3 @@ And here the simple alternative:
 
 For an example of how we use this image, also see our [tutorial on how to use Storm with Docker Swarm](https://github.com/Baqend/tutorial-swarm-storm).
 
-## Build Process
-
-All build parameters are provided in file `params.sh`. The following command builds and pushes the image with all versions provided in the final: 
-
-	. allVersions.sh build push 
-(This is basically just a reminder for us and not interesting for most of you ;-) )
