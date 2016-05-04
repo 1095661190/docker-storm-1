@@ -3,7 +3,7 @@ MAINTAINER wingerath wolfram@wingerath.org
 
 # The used storm version can also be supplied like this with the build command like this:
 # --build-arg BIN_VERSION=apache-storm-1.0.0
-ARG BIN_VERSION=apache-storm-0.9.5
+ARG BIN_VERSION=apache-storm-0.9.6
 
 WORKDIR /usr/share/storm
 
