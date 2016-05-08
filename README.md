@@ -44,7 +44,7 @@ Internally, this is passed to Storm as
 The baqend/storm Docker image uses the following default values that can be overridden by providing the corresponding arguments in the `run` statement (e.g. `-c nimbus.seeds="[\"nimbus\"]"`):
 
 - `-c nimbus.seeds="[\"nimbus\"]"`: is also overridden by `nimbus.host` (depreciated since 1.0.0)
-- `-c storm.local.hostname=<CONTAINER-ID>`: by default, the image assigns the value `nimbus` when the `nimbus` argument is provided and the docker container ID alice
+- `-c storm.local.hostname=<CONTAINER-ID>`: by default, the image assigns the value `nimbus` when `nimbus` is provided as argument; the docker container ID is used as hostname else
 - `-c supervisor.slots.ports="[6700,6701,6702,6703]"`: only when the `supervisor` argument is provided
 
 In consequence, only the ZooKeeper servers and the role argument (either `ui `, `nimbus` or `supervisor`) have to be provided in a `docker run` statement.
