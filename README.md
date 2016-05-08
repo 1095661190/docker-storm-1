@@ -41,7 +41,7 @@ Internally, this is passed to Storm as
 
 ### Default Values
 
-The baqend/storm Docker image uses the following default values that can be overridden by providing the corresponding arguments in the `run` statement (e.g. `-c nimbus.seeds="[\"nimbus\"]"`):
+The baqend/storm Docker image uses the following default values that can be overridden by providing the corresponding arguments in the `run` statement (e.g. `-c nimbus.seeds="[\"nimbus1\",\"nimbus2\"]"`):
 
 - `-c nimbus.seeds="[\"nimbus\"]"`: is also overridden by `nimbus.host` (depreciated since 1.0.0)
 - `-c storm.local.hostname=<CONTAINER-ID>`: by default, the image assigns the value `nimbus` when `nimbus` is provided as argument; the docker container ID is used as hostname else
