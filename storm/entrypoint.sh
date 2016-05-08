@@ -1,23 +1,72 @@
 #!/bin/bash
 
-# now let's build the command to start storm
-CMD="exec bin/storm \"\$@\" -c storm.local.hostname="$(hostname -i | awk '{print $1;}')
-
-############################
+###########################
 # storm.zookeeper.servers #
-############################
+###########################
+ZOOKEEPER_SERVERS_ESCAPED=
 if ! [ -z "$STORM_ZOOKEEPER_SERVERS" ]; then
     # All ZooKeeper server IPs in an array
     IFS=', ' read -r -a ZOOKEEPER_SERVERS_ARRAY <<< "$STORM_ZOOKEEPER_SERVERS"
-    ZOOKEEPER_SERVERS_ESCAPED=
     for index in "${!ZOOKEEPER_SERVERS_ARRAY[@]}"
     do
-        ZOOKEEPER_SERVERS_ESCAPED="$ZOOKEEPER_SERVERS_ESCAPED,\\\"${ZOOKEEPER_SERVERS_ARRAY[index]}\\\""
+        ZOOKEEPER_SERVERS_ESCAPED=$ZOOKEEPER_SERVERS_ESCAPED,"\\\"${ZOOKEEPER_SERVERS_ARRAY[index]}\\\""
     done
     ZOOKEEPER_SERVERS_ESCAPED=[${ZOOKEEPER_SERVERS_ESCAPED:1}]
-    CMD="$CMD -c storm.zookeeper.servers=$ZOOKEEPER_SERVERS_ESCAPED"
+    ZOOKEEPER_SERVERS_ESCAPED=" -c storm.zookeeper.servers=\"$ZOOKEEPER_SERVERS_ESCAPED\""
 fi
 
-# print and execute command string
-echo $CMD
-eval $CMD
+########################
+# storm.local.hostname #
+########################
+HOST=" -c storm.local.hostname=$(hostname)"
+# For the nimbus, apply "nimbus" as default hostname
+for arg in "$@"
+do
+    if [[ $arg == "nimbus" ]] ; then
+        HOST=" -c storm.local.hostname=\"nimbus\""
+    fi
+done
+
+##########################
+# supervisor.slots.ports #
+##########################
+SUPERVISOR_SLOTS=
+# For a supervisor, set worker slots
+for arg in "$@"
+do
+    if [[ $arg == "supervisor" ]] ; then
+        SUPERVISOR_SLOTS=" -c supervisor.slots.ports=\"[6700,6701,6702,6703]\""
+    fi
+done
+
+################
+# nimbus.seeds #
+################
+NIMBUS_SEEDS=" -c nimbus.seeds=\"[\\\"nimbus\\\"]\""
+
+###################################################
+# Make sure provided arguments are not overridden #
+###################################################
+for arg in "$@"
+do
+    if [[ $arg == *"storm.zookeeper.servers"* ]] ; then
+        ZOOKEEPER_SERVERS_ESCAPED=
+    fi
+    if [[ $arg == *"storm.local.hostname"* ]] ; then
+        HOST=
+    fi
+    if [[ $arg == *"supervisor.slots.ports"* ]] ; then
+        SUPERVISOR_SLOTS=
+    fi
+    if [[ $arg == *"nimbus.seeds"* ]] ; then
+        NIMBUS_SEEDS=
+    fi
+    if [[ $arg == *"nimbus.host"* ]] ; then
+        NIMBUS_SEEDS=
+    fi
+done
+
+CMD="exec bin/storm $@$NIMBUS_SEEDS$SUPERVISOR_SLOTS$HOST$ZOOKEEPER_SERVERS_ESCAPED"
+
+echo "$CMD"
+eval "$CMD"
