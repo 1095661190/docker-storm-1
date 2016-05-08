@@ -14,7 +14,7 @@ The Docker image launches Apache Storm. By default, the `storm.local.hostname` p
 Storm allows you to provide any property via command line arguments like this:
 
 	bin/storm ui \
-        -c storm.local.hostname=wil"nimbus"
+        -c storm.local.hostname="nimbus"
 You are not restricted to strings, but can also provide integer lists:
 
 	bin/storm supervisor \
