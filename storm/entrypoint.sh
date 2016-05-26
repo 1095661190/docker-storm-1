@@ -18,7 +18,7 @@ fi
 ########################
 # storm.local.hostname #
 ########################
-HOST=" -c storm.local.hostname=$(hostname -i | awk '{print \$1;}')"
+HOST=" -c storm.local.hostname=$(hostname -i | awk '{print $1;}')"
 # For the nimbus, apply "nimbus" as default hostname
 for arg in "$@"
 do
