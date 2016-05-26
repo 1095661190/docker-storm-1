@@ -24,7 +24,7 @@ Or lists of strings:
 	bin/storm supervisor \
         -c storm.zookeeper.servers="[\"zk1\",\"zk2\",\"zk3\"]"
 
-You can look up [**all the parameters in the source code**](https://github.com/apache/storm/blob/0.9.3-branch/storm-core/src/jvm/backtype/storm/Config.java).
+You can look up [**all the parameters in the source code**](https://github.com/apache/storm/blob/master/storm-core/src/jvm/org/apache/storm/Config.java).
 
 
 ### Providing ZooKeeper the easy way
