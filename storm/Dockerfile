@@ -2,7 +2,7 @@ FROM baqend/java:latest
 MAINTAINER wingerath wolfram@wingerath.org
 
 # The used storm version can also be supplied like this with the build command like this:
-# --build-arg BIN_VERSION=apache-storm-1.0.0
+# --build-arg BIN_VERSION=apache-storm-1.0.2
 ARG BIN_VERSION=apache-storm-1.0.0
 
 WORKDIR /usr/share/storm
@@ -27,6 +27,8 @@ RUN \
 
 # add startup script
 ADD entrypoint.sh entrypoint.sh
+ADD cluster.xml /usr/share/storm/log4j2/cluster.xml
+ADD worker.xml /usr/share/storm/log4j2/worker.xml
 RUN chmod +x entrypoint.sh
 
 ENTRYPOINT ["/usr/share/storm/entrypoint.sh"]
