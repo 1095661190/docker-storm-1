@@ -27,8 +27,8 @@ RUN \
 
 # add startup script
 ADD entrypoint.sh entrypoint.sh
-ADD cluster.xml /usr/share/storm/log4j2/cluster.xml
-ADD worker.xml /usr/share/storm/log4j2/worker.xml
+ADD cluster.xml log4j2/cluster.xml
+ADD worker.xml log4j2/worker.xml
 RUN chmod +x entrypoint.sh
 
 ENTRYPOINT ["/usr/share/storm/entrypoint.sh"]
