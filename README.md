@@ -1,6 +1,6 @@
 # docker-storm
 
-We created this image to ease deployment of Apache Storm. More related resources:
+We created this image to ease deployment of Apache Storm. More related main.resources:
 
 - Our [tutorial on how to use Storm with Docker Swarm](https://github.com/Baqend/tutorial-swarm-storm)
 - the [baqend/storm on Docker Hub](https://hub.docker.com/r/baqend/storm/)
