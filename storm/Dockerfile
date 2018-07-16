@@ -1,4 +1,4 @@
-FROM baqend/java:latest
+FROM baqend/java:8u171
 MAINTAINER wingerath wolfram@wingerath.org
 
 # The used storm version can also be supplied like this with the build command like this:
